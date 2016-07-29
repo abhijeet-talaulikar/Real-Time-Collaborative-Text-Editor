@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Workspace</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <link rel="stylesheet" href="/css/layout.css" />
+    <script src="/scripts/Workspace.js"></script>
+    <script src="/scripts/FileLoader.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+    <script>
+    var socket = io();
+    socket.on('join', function(data) {
+        $('#file-status').html(data);
+    });
+    
+    socket.on('leave', function(data) {
+        $('#file-status').html(data);
+    });
+        
+    socket.on('edit', function(data) {
+        $('#content-area textarea').val(data.toString());
+        var bytes = $("#content-area textarea").val().length;
+        $("#file-size").html((bytes/1024).toFixed(3) + " KB");
+    });
+        
+    socket.on('load', function(data) {
+        location.reload();
+        alert("New file was loaded!");
+    });
+        
+    socket.on('close', function(data) {
+        location.reload();
+        alert("File was closed!");
+    });
+    
+    $(document).ready(function() {        
+        $('#content-area textarea').keyup(function(e) {
+            socket.emit('edit', $('#content-area textarea').val());
+        });
+    });
+    </script>
+    <div class="container" id="main-container" ng-app="workspace">
+        <div class="row" id="top">
+            <div class="col-xs-4">
+                <h3>Workspace</h3>
+            </div>
+            <div class="col-xs-8" ng-controller="FileManager" ng-init="initialize()">
+                <form role="form" action="/uploadFile" method="POST" enctype="multipart/form-data" id="loader">
+                    <span class="btn btn-default btn-file">
+                        Browse <input type="file" accept="text/*" name="targetFile" required />
+                    </span>
+                    <button type="submit" class="btn btn-primary" id="load" title="Upload selected file."><span class="glyphicon glyphicon-open"></span></button>
+                </form>
+                <button class="btn btn-primary" id="save" title="Save current file." ng-click="saveFile()" disabled><span class="glyphicon glyphicon-floppy-disk"></span></button>
+                <button class="btn btn-primary" id="close" title="Close current file." ng-click="closeFile()" disabled><span class="glyphicon glyphicon-off"></span></button>
+            </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="row" id="info-bar">
+            <div class="col-xs-5">
+                <p>
+                    <strong>Name: </strong>
+                    <span id="file-name"></span>
+                </p>
+            </div>
+            <div class="col-xs-3">
+                <p>
+                    <strong>Type: </strong>
+                    <span id="file-type"></span>
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <p>
+                    <strong>Size:</strong>
+                    <span id="file-size"></span>
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <p>
+                    <strong>Clients:</strong>
+                    <span id="file-status" ng-include="'/clients'"></span>
+                </p>
+            </div>
+        </div>
+        <div class="row" id="content-area">
+            <textarea></textarea>
+        </div>
+    </div>
+</body>
+</html>
