@@ -8,7 +8,7 @@
     "email": "abhijeetstalaulikar@gmail.com"
   },
   "keywords": [],
-  "license": "none",
+  "license": "UNLICENSED",
   "repository": {
     "type": "git",
     "url": "https://github.com/abhijeet-talaulikar/Real-Time-Collaborative-Text-Editor"
@@ -21,7 +21,7 @@
     "socket.io": "1.4.8"
   },
   "files": [
-    "README.md",
+    "Readme.md",
     "index.js",
     "current/",
     "css/",
