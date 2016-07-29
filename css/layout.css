@@ -1,0 +1,56 @@
+body {
+    color:#5f5e5e;
+    margin-bottom: 20px;
+}
+#main-container {
+    width:1200px;
+}
+div.spacer {
+    margin:10px 0 2px 0;
+}
+#top {
+    margin:0 auto;
+    padding:20px;
+    box-shadow:5px 5px 5px #f7f7f7;
+}
+#top form, #top h3 {
+    margin:0;
+    padding:0;
+}
+#top form {
+    display:inline;
+}
+#top form input, #top form button {
+    display:inline;
+    margin:0;
+}
+#top form button, #top #save, #top #close {
+    margin-left:10px
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+    width:500px;
+}
+#info-bar {
+    margin:0 auto;
+    padding:10px 20px 0 20px;
+    font-size:13px;
+}
+#info-bar strong {
+    margin-right:10px;
+}
+#content-area {
+    margin:0 auto;
+    padding:0;
+}
+#content-area textarea {
+    width:100%;
+    height:500px;
+    resize:none;
+    overflow:scroll;
+    margin:0 auto;
+    border-color:#d9d9d9;
+    box-shadow:5px 5px 5px #f7f7f7;
+    padding:20px;
+}
